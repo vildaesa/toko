@@ -88,7 +88,7 @@ body {
   flex: 0.1;
 }
 
-ion-row.gap {
+ion-row .gap {
   display: grid;
   grid-template-collumnt: 1fr 1fr 1fr
   grid-gap: 5px;
