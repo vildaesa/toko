@@ -93,6 +93,7 @@ body {
   aspect-ratio: 1 / 1.5;
   object-fit: cover;
   display: block;
+  gap: 5px;
 }
 
 .product-page {
