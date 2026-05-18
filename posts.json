@@ -6,7 +6,7 @@ permalink: posts.json
   "posts": [
     {% for post in site.posts %}
       {
-        "url": "{{ item.url }}",
+        "url": "{{ post.url }}",
         "slug": "{{ post.title | slugify }}",
         "title": "{{ post.title }}",
         "img": "{{ post.img }}",
