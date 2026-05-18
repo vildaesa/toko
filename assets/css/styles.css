@@ -89,9 +89,9 @@ body {
 }
 
 ion-row.gap {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 5px;
+  display: grid;
+  grid-template-collumnt: 1fr 1fr 1fr
+  grid-gap: 5px;
 }
 
 .grid-image {
