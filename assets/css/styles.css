@@ -89,21 +89,21 @@ body {
 }
 
 ion-col .gap {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 5px;
   width: 100%;
 }
 
 .grid-image {
-  width: calc((100% - 10px) / 3); 
+  width: 100%;
   aspect-ratio: 1 / 1.5;
   object-fit: cover;
 }
 
-.grid-image:nth-child(3n) {
+/* .grid-image:nth-child(3n) {
   margin-right: -5px; 
-}
+} */
 
 .product-page {
   max-width: 1000px;
