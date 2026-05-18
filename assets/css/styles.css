@@ -98,7 +98,9 @@ ion-row.gap {
   width: 100%;
   aspect-ratio: 1 / 1.5;
   object-fit: cover;
-  display: block;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;;
 }
 
 .product-page {
