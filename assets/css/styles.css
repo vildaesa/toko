@@ -99,11 +99,11 @@ ion-col .gap {
   width: 100%;
   aspect-ratio: 1 / 1.5;
   object-fit: cover;
-  padding-right: 5px;
+  margin-right: 5px;
 }
 
 .grid-image:nth-child(3n) {
-  padding-right: 0px; 
+  margin-right: 0px; 
 }
 
 .product-page {
