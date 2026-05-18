@@ -59,11 +59,11 @@
 
     <ion-grid class="ion-no-padding">
       <ion-row>
-            <ion-col class=*gap" size="4">
         {% for product in site.products %}
-          {% if product.image %}<img src="{{ product.image }}" class="grid-image">
+          {% if product.image %}
+            <ion-col class=*gap" size="4"><img src="{{ product.image }}" class="grid-image"></ion-col>
           {% endif %}
-        {% endfor %}</ion-col>
+        {% endfor %}
       </ion-row>
     </ion-grid>
   </ion-content>
