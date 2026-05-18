@@ -3,6 +3,7 @@ description: "Replikasi profil Instagram dan katalog produk modular dengan Jekyl
 author: ""
 url: ""
 baseurl: "/toko"
+avatar: 
 
 collections:
   products:
