@@ -99,7 +99,7 @@ ion-col .gap {
   width: 100%;
   aspect-ratio: 1 / 1.5;
   object-fit: cover;
-  pading-right: 5px;
+  padding-right: 5px;
 }
 
 .grid-image:nth-child(3n) {
