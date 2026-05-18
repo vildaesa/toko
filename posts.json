@@ -6,12 +6,12 @@ permalink: posts.json
   "posts": [
     {% for post in site.posts %}
       {
+        "slug": "{{ post.title | slugify }}",
         "title": "{{ post.title }}",
-        "url": "{{ post.url }}",
         "img": "{{ post.img }}",
         "description": "{{ post.desc }}",
         "date": "{{ post.date | date: '%Y-%m-%d' }}",
-        "excerpt": "{{ post.content | strip_html | strip_newlines }}"
+        "excerpt": "{{ post.content | strip_html | truncate: 130 }}"
       }
     {% unless forloop.last %},{% endunless %}
     {% endfor %}
