@@ -5,288 +5,725 @@ layout: none
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>SnackStore - Toko Makanan Ringan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Masker Bordir Tasikmalaya | Toko Instagram</title>
   
-  <!-- Ionic Core 8 CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core@8/css/ionic.bundle.css">
+  <!-- Ionic Core -->
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core@8/dist/ionic/ionic.esm.js"></script>
+  <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core@8/dist/ionic/ionic.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@ionic/core@8/css/ionic.bundle.css" />
   
-  <!-- Custom style tambahan -->
+  <!-- jQuery -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  
+  <!-- Ionicons -->
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+
   <style>
-    /* Gaya kustom untuk card & gambar */
-    .product-card {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    :root {
+      --ion-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --insta-bg: #fafafa;
     }
-    .product-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    body {
+      background-color: var(--insta-bg);
     }
-    .product-img {
+    /* produk grid instagram style */
+    .product-grid {
+      padding: 2px;
+    }
+    .product-item {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .product-item img {
       width: 100%;
-      height: 160px;
+      height: 100%;
       object-fit: cover;
-      background: #f2f2f2;
-      border-top-left-radius: 8px;
-      border-top-right-radius: 8px;
+      transition: transform 0.2s ease;
     }
-    .product-info {
-      padding: 12px;
-      flex: 1;
+    .product-item:hover img {
+      transform: scale(1.02);
     }
-    .price-original {
-      text-decoration: line-through;
-      font-size: 0.85rem;
-      color: var(--ion-color-medium);
-      margin-right: 8px;
-    }
-    .price-sale {
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: var(--ion-color-danger);
-    }
-    .price-normal {
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: var(--ion-color-dark);
-    }
-    .badge-promo {
+    .product-overlay {
       position: absolute;
-      top: 8px;
-      left: 8px;
-      z-index: 2;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+      padding: 8px 6px;
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      opacity: 0;
+      transition: opacity 0.2s;
+      pointer-events: none;
     }
-    ion-badge {
-      --padding-start: 6px;
-      --padding-end: 6px;
+    .product-item:hover .product-overlay {
+      opacity: 1;
+    }
+    .product-price {
+      background: rgba(0,0,0,0.6);
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 11px;
+    }
+    .cart-fab {
+      position: fixed;
+      bottom: 70px;
+      right: 16px;
+      z-index: 100;
     }
     .cart-badge {
-      margin-left: 6px;
-      vertical-align: middle;
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: #ed4956;
+      color: white;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
     }
-    ion-header ion-toolbar {
-      --background: #ff9800;
-      --color: #fff;
-    }
-    .footer-note {
-      text-align: center;
+    .profile-header {
       padding: 16px;
-      font-size: 0.8rem;
-      color: var(--ion-color-medium);
+      background: white;
+      border-bottom: 1px solid #efefef;
+    }
+    .avatar-large {
+      width: 84px;
+      height: 84px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid #dbdbdb;
+    }
+    /* style keranjang di modal */
+    .cart-item-row {
+      display: flex;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #efefef;
+      align-items: center;
+    }
+    .cart-item-img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .cart-item-detail {
+      flex: 1;
+      font-size: 14px;
+    }
+    .cart-qty-control {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 6px;
+    }
+    .cart-qty-control ion-icon {
+      font-size: 22px;
+      cursor: pointer;
+      color: #262626;
+    }
+    .empty-cart {
+      text-align: center;
+      padding: 40px 20px;
+      color: #8e8e8e;
+    }
+    ion-modal {
+      --height: 90%;
+      --border-radius: 16px;
+    }
+    .checkout-form ion-item {
+      --padding-start: 0;
+      margin-bottom: 12px;
+    }
+    .total-checkout {
+      font-weight: bold;
+      font-size: 18px;
+      margin: 16px 0;
+      text-align: right;
+    }
+    .shop-name {
+      font-weight: 600;
+    }
+    .tab-selected {
+      color: var(--ion-color-primary);
     }
   </style>
 </head>
 <body>
   <ion-app>
-    <ion-page>
-      <!-- Header dengan judul & keranjang -->
-      <ion-header>
-        <ion-toolbar>
-          <ion-title>
-            <ion-icon name="restaurant-outline" style="margin-right: 8px;"></ion-icon>
-            SnackStore
-          </ion-title>
-          <ion-buttons slot="end">
-            <ion-button id="cart-button">
-              <ion-icon name="cart-outline" slot="icon-only"></ion-icon>
-              <ion-badge id="cart-count" color="danger" class="cart-badge">0</ion-badge>
-            </ion-button>
-          </ion-buttons>
-        </ion-toolbar>
-        <ion-toolbar>
-          <ion-title size="small">🍪 Kudapan lezat untuk segala suasana</ion-title>
-        </ion-toolbar>
-      </ion-header>
+    <ion-header class="ion-no-border">
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button id="back-button">
+            <ion-icon name="chevron-back-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+        <ion-title style="font-weight: bold; font-size: 1rem; text-align: center;">masker.bordir.tasik</ion-title>
+        <ion-buttons slot="end">
+          <ion-button id="cart-header-btn">
+            <ion-icon name="cart-outline"></ion-icon>
+            <ion-badge id="cart-count-badge" color="danger" style="position: absolute; top: 4px; right: 4px; font-size: 10px; padding: 2px 5px;">0</ion-badge>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
 
-      <!-- Konten utama: daftar produk -->
-      <ion-content class="ion-padding">
-        <ion-grid>
-          <ion-row id="products-container">
-            <!-- Produk akan di-render oleh JavaScript -->
+    <ion-content>
+      <!-- Profile Header ala Instagram -->
+      <div class="profile-header">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+          <img src="https://via.placeholder.com/150?text=TOKO" class="avatar-large" alt="avatar toko" style="width: 84px; height: 84px;">
+          <div style="text-align: center; flex: 1;">
+            <div><strong>20+</strong></div>
+            <div style="font-size: 12px; color: #666;">produk</div>
+          </div>
+          <div style="text-align: center; flex: 1;">
+            <div><strong>1.2rb</strong></div>
+            <div style="font-size: 12px; color: #666;">terjual</div>
+          </div>
+          <div style="text-align: center; flex: 1;">
+            <div><strong>❤️</strong></div>
+            <div style="font-size: 12px; color: #666;">suka</div>
+          </div>
+        </div>
+        <div style="margin-bottom: 12px;">
+          <div style="font-weight: bold; font-size: 16px;">Masker Bordir Tasikmalaya</div>
+          <div style="font-size: 13px; color: #333;">✨ Masker kain bordir manual | 3 lapis katun premium 🌸</div>
+          <div style="display: flex; align-items: center; gap: 4px; font-size: 12px; color: #385898; margin-top: 4px;">
+            <ion-icon name="at-outline"></ion-icon> masker.bordir.tasik
+          </div>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <ion-button expand="block" fill="outline" color="dark" style="flex:1; height: 36px; font-size: 13px;" id="follow-btn">Ikuti</ion-button>
+          <ion-button expand="block" fill="outline" color="dark" style="flex:1; height: 36px; font-size: 13px;" id="contact-btn">Message</ion-button>
+        </div>
+      </div>
+
+      <!-- Segment Grid / Produk -->
+      <ion-segment value="products" mode="md">
+        <ion-segment-button value="products">
+          <ion-icon name="grid-outline"></ion-icon>
+          <ion-label>Produk</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="reels">
+          <ion-icon name="play-circle-outline"></ion-icon>
+          <ion-label>Katalog</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+
+      <!-- Grid Produk Dinamis -->
+      <div id="products-grid-container" class="product-grid">
+        <ion-grid class="ion-no-padding">
+          <ion-row id="product-row">
+            <!-- produk akan di-load dari product.json via js -->
           </ion-row>
         </ion-grid>
-      </ion-content>
+      </div>
 
-      <!-- Footer sederhana -->
-      <ion-footer>
-        <div class="footer-note">
-          <ion-icon name="heart-outline"></ion-icon> Nikmati camilan favoritmu • Gratis ongkir min belanja 50k
-        </div>
-      </ion-footer>
-    </ion-page>
+      <!-- Loading indicator -->
+      <div id="loading-prod" style="text-align: center; padding: 40px;">
+        <ion-spinner name="crescent"></ion-spinner>
+        <p>Memuat koleksi masker...</p>
+      </div>
+    </ion-content>
+
+    <!-- Bottom Navigation ala Instagram -->
+    <ion-footer class="ion-no-border">
+      <ion-toolbar>
+        <ion-tabs>
+          <ion-tab-bar slot="bottom" id="main-tab-bar">
+            <ion-tab-button tab="home" class="tab-active">
+              <ion-icon name="home-outline"></ion-icon>
+              <ion-label>Beranda</ion-label>
+            </ion-tab-button>
+            <ion-tab-button tab="search" id="open-cart-tab">
+              <ion-icon name="cart-outline"></ion-icon>
+              <ion-label>Keranjang</ion-label>
+            </ion-tab-button>
+            <ion-tab-button tab="add">
+              <ion-icon name="add-circle-outline"></ion-icon>
+              <ion-label>Toko</ion-label>
+            </ion-tab-button>
+            <ion-tab-button tab="reels">
+              <ion-icon name="heart-outline"></ion-icon>
+              <ion-label>Favorite</ion-label>
+            </ion-tab-button>
+            <ion-tab-button tab="profile">
+              <ion-icon name="person-circle-outline"></ion-icon>
+              <ion-label>Profil</ion-label>
+            </ion-tab-button>
+          </ion-tab-bar>
+        </ion-tabs>
+      </ion-toolbar>
+    </ion-footer>
   </ion-app>
 
-  <!-- Ionic Core 8 JS (module) -->
-  <script type="module" src="https://cdn.jsdelivr.net/npm/@ionic/core@8/dist/ionic/ionic.esm.js"></script>
-  <!-- Fallback non-modern -->
-  <script nomodule src="https://cdn.jsdelivr.net/npm/@ionic/core@8/dist/ionic/ionic.js"></script>
-  
-  <!-- Ionicons (untuk ikon) -->
-  <script type="module" src="https://cdn.jsdelivr.net/npm/ionicons@7/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://cdn.jsdelivr.net/npm/ionicons@7/dist/ionicons/ionicons.js"></script>
+  <!-- Modal Keranjang + Checkout -->
+  <ion-modal id="cart-modal" trigger="open-cart-modal" initial-breakpoint="0.9" breakpoints="[0, 0.5, 0.9]">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Keranjang Belanja</ion-title>
+        <ion-buttons slot="end">
+          <ion-button id="close-cart-modal">Tutup</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <div id="cart-dynamic-content">
+        <!-- isi cart dari simpleCart akan dirender disini -->
+        <div class="empty-cart" style="text-align: center;">
+          <ion-icon name="cart-outline" style="font-size: 64px; color: #ccc;"></ion-icon>
+          <p>Keranjang masih kosong</p>
+        </div>
+      </div>
+      <div id="checkout-section" style="display: none; margin-top: 20px;">
+        <div class="total-checkout">
+          <span>Total: </span><strong id="grand-total-cart">Rp0</strong>
+        </div>
+        <ion-button expand="block" id="checkout-wa-btn" color="success">🛒 Pesan via WhatsApp</ion-button>
+      </div>
+    </ion-content>
+  </ion-modal>
 
-  <!-- Vanilla JS untuk data produk, render, & keranjang -->
+  <!-- Modal Detail Produk (Pilih varian warna + qty) -->
+  <ion-modal id="product-modal" initial-breakpoint="0.75" breakpoints="[0, 0.5, 0.75, 1]">
+    <ion-header>
+      <ion-toolbar>
+        <ion-title id="modal-product-title">Detail Produk</ion-title>
+        <ion-buttons slot="end">
+          <ion-button id="close-product-modal">Tutup</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <div style="text-align: center;">
+        <img id="modal-product-img" src="" style="width: 100%; max-width: 280px; border-radius: 16px; margin-bottom: 16px;">
+      </div>
+      <ion-item>
+        <ion-label position="stacked">Nama Produk</ion-label>
+        <ion-text id="modal-product-name"></ion-text>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Harga</ion-label>
+        <ion-text id="modal-product-price" style="color: #e63946; font-weight: bold;"></ion-text>
+      </ion-item>
+      <ion-item>
+        <ion-label>Pilih Warna</ion-label>
+        <ion-select id="product-color-select" interface="action-sheet" placeholder="Pilih warna">
+          <!-- option dari styles -->
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Jumlah</ion-label>
+        <ion-input id="product-qty" type="number" value="1" min="1"></ion-input>
+      </ion-item>
+      <ion-button expand="block" color="primary" id="add-to-cart-modal-btn" style="margin-top: 24px;">
+        <ion-icon name="bag-add-outline" slot="start"></ion-icon> Tambah ke Keranjang
+      </ion-button>
+    </ion-content>
+  </ion-modal>
+
   <script>
-    // Data produk makanan ringan
-    const products = [
-      { id: 1, name: 'Keripik Singkong Pedas', price: 15000, image: 'https://picsum.photos/id/30/300/200', promo: true, promoPrice: 12000, badge: 'Diskon 20%' },
-      { id: 2, name: 'Cokelat Batang Dark', price: 25000, image: 'https://picsum.photos/id/106/300/200', promo: false },
-      { id: 3, name: 'Kacang Atom Madu', price: 10000, image: 'https://picsum.photos/id/108/300/200', promo: false },
-      { id: 4, name: 'Marshmallow Stroberi', price: 18000, image: 'https://picsum.photos/id/120/300/200', promo: true, promoPrice: 15000, badge: 'Hemat 3k' },
-      { id: 5, name: 'Pilus Jagung Keju', price: 12000, image: 'https://picsum.photos/id/127/300/200', promo: false },
-      { id: 6, name: 'Sosis Kering BBQ', price: 20000, image: 'https://picsum.photos/id/135/300/200', promo: true, promoPrice: 17000, badge: 'Limited' },
-      { id: 7, name: 'Wafer Coklat', price: 22000, image: 'https://picsum.photos/id/185/300/200', promo: false },
-      { id: 8, name: 'Basreng Pedas', price: 14000, image: 'https://picsum.photos/id/230/300/200', promo: true, promoPrice: 11000, badge: 'Hot Sale' }
-    ];
+    // Global variabel untuk produk
+    let productsData = [];
+    let selectedProduct = null;
 
-    // Keranjang: { productId, quantity }
-    let cart = [];
-
-    // Helper: update badge total item di keranjang
-    function updateCartBadge() {
-      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-      const badge = document.getElementById('cart-count');
-      if (badge) badge.innerText = totalItems;
+    // Helper format rupiah (sama seperti simpleCart)
+    function angkaToRp(angka) {
+      if (typeof angka === 'undefined' || angka === null) return 'Rp0';
+      let number = Math.round(parseFloat(angka));
+      if (isNaN(number)) return 'Rp0';
+      return 'Rp' + number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
 
-    // Fungsi menambah produk ke keranjang
-    function addToCart(product) {
-      const existing = cart.find(item => item.productId === product.id);
-      if (existing) {
-        existing.quantity += 1;
-      } else {
-        cart.push({ productId: product.id, quantity: 1 });
+    // Load data produk dari product.json
+    async function loadProducts() {
+      try {
+        const response = await fetch('product.json');
+        const data = await response.json();
+        productsData = data.product || [];
+        renderProductGrid();
+        document.getElementById('loading-prod').style.display = 'none';
+      } catch (error) {
+        console.error('Gagal load produk:', error);
+        document.getElementById('loading-prod').innerHTML = '<p style="color:red;">Gagal memuat produk. Coba refresh.</p>';
       }
-      updateCartBadge();
-      
-      // Tampilkan notifikasi dengan ion-toast (simple)
-      showToast(`${product.name} ditambahkan ke keranjang!`);
     }
 
-    // Membuat toast sederhana tanpa komponen berat
-    function showToast(message) {
-      // Gunakan alert sementara agar tetap ringan dan informatif
-      // Bisa juga dengan window.alert, tapi lebih user friendly dengan alert kecil
-      // Alternatif: buat elemen toast floating sederhana
-      const toast = document.createElement('ion-toast');
-      toast.message = message;
-      toast.duration = 1500;
-      toast.position = 'bottom';
-      document.body.appendChild(toast);
-      return toast.present();
-    }
-
-    // Render daftar produk ke dalam ion-grid
-    function renderProducts() {
-      const container = document.getElementById('products-container');
-      if (!container) return;
-      
-      container.innerHTML = '';
-      
-      products.forEach(product => {
-        const isPromo = product.promo;
-        const displayPrice = isPromo ? product.promoPrice : product.price;
-        const originalPrice = isPromo ? product.price : null;
-        const badgeText = isPromo ? product.badge : null;
-        
-        // Buat kolom untuk setiap produk
+    // Render produk ke dalam grid
+    function renderProductGrid() {
+      const row = document.getElementById('product-row');
+      if (!row) return;
+      row.innerHTML = '';
+      productsData.forEach(product => {
         const col = document.createElement('ion-col');
-        col.setAttribute('size', '12');   // default mobile
-        col.setAttribute('size-sm', '6');
-        col.setAttribute('size-md', '4');
-        col.setAttribute('size-lg', '3');
+        col.size = '4';
+        col.style.padding = '2px';
+        col.className = 'product-item';
         
-        // Card produk
-        const card = document.createElement('ion-card');
-        card.className = 'product-card';
-        card.style.position = 'relative';
+        // Harga yang ditampilkan (ambil diskon jika ada, fallback ke price)
+        let displayPrice = product.discount ? parseInt(product.discount) : parseInt(product.price);
+        let originalPrice = product.price ? parseInt(product.price) : 0;
+        let hasDiscount = product.discount && parseInt(product.discount) < originalPrice;
         
-        // Badge promo jika ada
-        if (badgeText) {
-          const badgeElem = document.createElement('ion-badge');
-          badgeElem.setAttribute('color', 'danger');
-          badgeElem.className = 'badge-promo';
-          badgeElem.innerText = badgeText;
-          card.appendChild(badgeElem);
-        }
-        
-        // Gambar
-        const img = document.createElement('img');
-        img.src = product.image;
-        img.alt = product.name;
-        img.className = 'product-img';
-        img.loading = 'lazy';
-        card.appendChild(img);
-        
-        // Konten info produk
-        const infoDiv = document.createElement('div');
-        infoDiv.className = 'product-info';
-        
-        const nameElem = document.createElement('h3');
-        nameElem.style.fontSize = '1.1rem';
-        nameElem.style.margin = '0 0 6px 0';
-        nameElem.innerText = product.name;
-        
-        const priceDiv = document.createElement('div');
-        priceDiv.style.marginBottom = '12px';
-        
-        if (isPromo) {
-          const originalSpan = document.createElement('span');
-          originalSpan.className = 'price-original';
-          originalSpan.innerText = `Rp ${originalPrice.toLocaleString('id-ID')}`;
-          priceDiv.appendChild(originalSpan);
-          
-          const saleSpan = document.createElement('span');
-          saleSpan.className = 'price-sale';
-          saleSpan.innerText = `Rp ${displayPrice.toLocaleString('id-ID')}`;
-          priceDiv.appendChild(saleSpan);
-        } else {
-          const normalSpan = document.createElement('span');
-          normalSpan.className = 'price-normal';
-          normalSpan.innerText = `Rp ${displayPrice.toLocaleString('id-ID')}`;
-          priceDiv.appendChild(normalSpan);
-        }
-        
-        // Tombol beli
-        const button = document.createElement('ion-button');
-        button.setAttribute('expand', 'block');
-        button.setAttribute('fill', 'solid');
-        button.setAttribute('color', 'warning');
-        button.style.marginTop = '8px';
-        button.innerHTML = '<ion-icon name="cart-outline" slot="start"></ion-icon> Beli Sekarang';
-        button.addEventListener('click', (e) => {
+        const imgSrc = product.image || 'https://via.placeholder.com/300';
+        col.innerHTML = `
+          <div class="product-item" data-id="${product.id}">
+            <img src="${imgSrc}" alt="${product.title}" loading="lazy">
+            <div class="product-overlay">
+              <span>${product.title.substring(0, 18)}</span>
+              <span class="product-price">${angkaToRp(displayPrice)}</span>
+            </div>
+          </div>
+        `;
+        col.querySelector('.product-item').addEventListener('click', (e) => {
           e.stopPropagation();
-          addToCart(product);
+          openProductModal(product);
         });
-        
-        infoDiv.appendChild(nameElem);
-        infoDiv.appendChild(priceDiv);
-        infoDiv.appendChild(button);
-        card.appendChild(infoDiv);
-        col.appendChild(card);
-        container.appendChild(col);
+        row.appendChild(col);
       });
     }
 
-    // Inisialisasi saat halaman siap
-    document.addEventListener('DOMContentLoaded', () => {
-      renderProducts();
+    // Buka modal detail produk
+    function openProductModal(product) {
+      selectedProduct = product;
+      document.getElementById('modal-product-title').innerText = product.title;
+      document.getElementById('modal-product-img').src = product.image || 'https://via.placeholder.com/300';
+      document.getElementById('modal-product-name').innerText = product.title;
+      let priceNow = product.discount ? parseInt(product.discount) : parseInt(product.price);
+      document.getElementById('modal-product-price').innerText = angkaToRp(priceNow);
       
-      // Opsional: saat tombol keranjang diklik, tampilkan isi keranjang sederhana
-      const cartBtn = document.getElementById('cart-button');
-      if (cartBtn) {
-        cartBtn.addEventListener('click', () => {
-          if (cart.length === 0) {
-            showToast('Keranjang masih kosong, yuk belanja!');
-          } else {
-            const totalItems = cart.reduce((sum, i) => sum + i.quantity, 0);
-            showToast(`🛒 Ada ${totalItems} item di keranjang. Silakan lanjutkan checkout.`);
-          }
+      // Isi pilihan warna
+      const colorSelect = document.getElementById('product-color-select');
+      colorSelect.innerHTML = '';
+      if (product.styles && product.styles.length > 0) {
+        product.styles.forEach(style => {
+          const option = document.createElement('ion-select-option');
+          option.value = style.name;
+          option.innerText = style.name.charAt(0).toUpperCase() + style.name.slice(1);
+          colorSelect.appendChild(option);
         });
+        colorSelect.value = product.styles[0].name;
+      } else {
+        const option = document.createElement('ion-select-option');
+        option.value = 'default';
+        option.innerText = 'Standar';
+        colorSelect.appendChild(option);
+        colorSelect.value = 'default';
       }
+      
+      document.getElementById('product-qty').value = '1';
+      
+      const modal = document.querySelector('#product-modal');
+      modal.present();
+    }
+    
+    // Integrasi simpleCart: inisialisasi & fungsi tambah
+    // Kita override atau integrasikan dengan simpleCart yang sudah disediakan.
+    // Karena simpleCart.js sudah di-load di global, kita akan manfaatkan.
+    // Pastikan simpleCart tersedia.
+    window.addEventListener('DOMContentLoaded', () => {
+      // Tunggu simpleCart siap
+      if (typeof simpleCart !== 'undefined') {
+        simpleCart.ready(() => {
+          console.log('simpleCart siap');
+          updateCartUI();
+        });
+        // Update event setiap cart berubah
+        simpleCart.bind('update', function() {
+          updateCartUI();
+        });
+      } else {
+        console.warn('simpleCart tidak ditemukan, fallback manual');
+      }
+      
+      loadProducts();
+      
+      // Tombol tambah ke keranjang dari modal
+      document.getElementById('add-to-cart-modal-btn').addEventListener('click', () => {
+        if (!selectedProduct) return;
+        const color = document.getElementById('product-color-select').value;
+        let qty = parseInt(document.getElementById('product-qty').value);
+        if (isNaN(qty) || qty < 1) qty = 1;
+        
+        let finalPrice = selectedProduct.discount ? parseInt(selectedProduct.discount) : parseInt(selectedProduct.price);
+        let sku = selectedProduct.sku || selectedProduct.id;
+        
+        // Data item untuk simpleCart
+        const itemData = {
+          id: `${selectedProduct.id}_${color}`,
+          name: selectedProduct.title + (color !== 'default' ? ` (${color})` : ''),
+          price: finalPrice,
+          quantity: qty,
+          warna: color !== 'default' ? color : 'Standar',
+          ukuran: 'Regular',
+          thumb: selectedProduct.image,
+          berat: 30, // estimasi 30gr per masker
+          shipping: 0
+        };
+        
+        if (typeof simpleCart !== 'undefined') {
+          simpleCart.add(itemData);
+          // Tampilkan notifikasi sederhana
+          showToast('Berhasil ditambahkan ke keranjang', 1500);
+          // Tutup modal produk
+          const modal = document.querySelector('#product-modal');
+          modal.dismiss();
+        } else {
+          alert('Keranjang belum siap, refresh halaman');
+        }
+      });
+      
+      // Buka modal keranjang dari tombol header atau tab
+      const cartModal = document.querySelector('#cart-modal');
+      document.getElementById('cart-header-btn').addEventListener('click', () => {
+        refreshCartContent();
+        cartModal.present();
+      });
+      document.getElementById('open-cart-tab').addEventListener('click', () => {
+        refreshCartContent();
+        cartModal.present();
+      });
+      document.getElementById('close-cart-modal').addEventListener('click', () => {
+        cartModal.dismiss();
+      });
+      document.getElementById('close-product-modal').addEventListener('click', () => {
+        const modal = document.querySelector('#product-modal');
+        modal.dismiss();
+      });
+      
+      // Tombol checkout WA
+      document.getElementById('checkout-wa-btn').addEventListener('click', async () => {
+        if (typeof simpleCart !== 'undefined' && simpleCart.quantity() > 0) {
+          // Tampilkan form data pengiriman sebelum kirim wa (sederhana)
+          await showCheckoutForm();
+        } else {
+          showToast('Keranjang kosong, tambahkan produk dulu ya!', 2000);
+        }
+      });
     });
+    
+    // Update UI badge cart & isi cart di modal
+    function updateCartUI() {
+      if (typeof simpleCart === 'undefined') return;
+      const totalQty = simpleCart.quantity();
+      const badge = document.getElementById('cart-count-badge');
+      if (badge) {
+        badge.innerText = totalQty;
+        badge.style.display = totalQty > 0 ? 'flex' : 'none';
+      }
+      // Refresh konten keranjang jika modal terbuka (opsional)
+      const modal = document.querySelector('#cart-modal');
+      if (modal && modal.classList.contains('show-modal') || modal.style.display === 'block') {
+        refreshCartContent();
+      }
+    }
+    
+    // Render keranjang dengan style custom (karena simpleCart bawaan perlu disesuaikan)
+    function refreshCartContent() {
+      if (typeof simpleCart === 'undefined') return;
+      const items = simpleCart.items();
+      const container = document.getElementById('cart-dynamic-content');
+      const checkoutSection = document.getElementById('checkout-section');
+      
+      if (!items || items.length === 0) {
+        container.innerHTML = `<div class="empty-cart"><ion-icon name="cart-outline" style="font-size: 64px; color: #ccc;"></ion-icon><p>Keranjang masih kosong</p></div>`;
+        checkoutSection.style.display = 'none';
+        return;
+      }
+      
+      let cartHtml = `<div style="margin-bottom: 16px;">`;
+      let grandTotal = 0;
+      items.forEach((item, idx) => {
+        const subtotal = item.quantity() * item.price();
+        grandTotal += subtotal;
+        cartHtml += `
+          <div class="cart-item-row" data-item-id="${item.id()}">
+            <img src="${item.get('thumb') || 'https://via.placeholder.com/60'}" class="cart-item-img" onerror="this.src='https://via.placeholder.com/60'">
+            <div class="cart-item-detail">
+              <div><strong>${item.get('name')}</strong></div>
+              <div style="font-size:12px; color:#888;">${item.get('warna') ? 'Warna: '+item.get('warna') : ''}</div>
+              <div>${angkaToRp(item.price())}</div>
+              <div class="cart-qty-control">
+                <ion-icon name="remove-circle-outline" class="cart-decr" data-id="${item.id()}"></ion-icon>
+                <span>${item.quantity()}</span>
+                <ion-icon name="add-circle-outline" class="cart-incr" data-id="${item.id()}"></ion-icon>
+                <ion-icon name="trash-outline" class="cart-remove" data-id="${item.id()}" style="margin-left: auto; color:#ed4956;"></ion-icon>
+              </div>
+            </div>
+            <div style="font-weight:bold;">${angkaToRp(subtotal)}</div>
+          </div>
+        `;
+      });
+      cartHtml += `</div>`;
+      container.innerHTML = cartHtml;
+      document.getElementById('grand-total-cart').innerText = angkaToRp(grandTotal);
+      checkoutSection.style.display = 'block';
+      
+      // Attach event handlers untuk qty dan delete
+      document.querySelectorAll('.cart-incr').forEach(el => {
+        el.addEventListener('click', (e) => {
+          const id = el.getAttribute('data-id');
+          const item = simpleCart.find(id);
+          if (item) item.increment(1);
+          refreshCartContent();
+        });
+      });
+      document.querySelectorAll('.cart-decr').forEach(el => {
+        el.addEventListener('click', (e) => {
+          const id = el.getAttribute('data-id');
+          const item = simpleCart.find(id);
+          if (item) item.decrement(1);
+          refreshCartContent();
+        });
+      });
+      document.querySelectorAll('.cart-remove').forEach(el => {
+        el.addEventListener('click', (e) => {
+          const id = el.getAttribute('data-id');
+          const item = simpleCart.find(id);
+          if (item) item.remove();
+          refreshCartContent();
+        });
+      });
+    }
+    
+    // showCheckoutForm: meminta data pelanggan sebelum kirim WA
+    async function showCheckoutForm() {
+      return new Promise(async (resolve) => {
+        const alert = document.createElement('ion-alert');
+        alert.header = 'Data Pengiriman';
+        alert.message = 'Isi data diri untuk melanjutkan pesanan via WhatsApp';
+        alert.inputs = [
+          { name: 'nama', type: 'text', placeholder: 'Nama lengkap', required: true },
+          { name: 'nomor', type: 'tel', placeholder: 'No. WhatsApp', required: true },
+          { name: 'alamat', type: 'textarea', placeholder: 'Alamat lengkap', required: true },
+          { name: 'kota', type: 'text', placeholder: 'Kota/Kabupaten', required: true },
+          { name: 'provinsi', type: 'text', placeholder: 'Provinsi', required: true },
+          { name: 'kodepos', type: 'text', placeholder: 'Kode Pos' },
+          { name: 'bayar', type: 'text', placeholder: 'Metode Bayar (Transfer/COD)', required: true },
+          { name: 'informasi', type: 'text', placeholder: 'Jasa Kirim (JNE, POS, dll)', required: true }
+        ];
+        alert.buttons = [
+          { text: 'Batal', role: 'cancel' },
+          { 
+            text: 'Kirim Pesanan', 
+            handler: (data) => {
+              if (!data.nama || !data.nomor || !data.alamat || !data.kota || !data.provinsi || !data.bayar || !data.informasi) {
+                showToast('Lengkapi data wajib!', 2000);
+                return false;
+              }
+              sendWhatsAppOrder(data);
+              resolve(true);
+              return true;
+            }
+          }
+        ];
+        document.body.appendChild(alert);
+        await alert.present();
+        const { role } = await alert.onDidDismiss();
+        alert.remove();
+      });
+    }
+    
+    // Kirim pesanan via whatsapp dengan format rapi dari formOrder.js style
+    function sendWhatsAppOrder(data) {
+      if (typeof simpleCart === 'undefined') return;
+      const items = simpleCart.items();
+      if (items.length === 0) {
+        showToast('Keranjang kosong', 1500);
+        return;
+      }
+      let cartItem = '';
+      let counter = 1;
+      items.forEach(item => {
+        cartItem += `*${counter}. ${item.get('name')}* %0A`;
+        cartItem += `   - Harga: ${angkaToRp(item.price())} %0A`;
+        cartItem += `   - Warna: ${item.get('warna') || '-'} %0A`;
+        cartItem += `   - Jumlah: ${item.quantity()} pcs %0A`;
+        cartItem += `   - Subtotal: ${angkaToRp(item.price() * item.quantity())} %0A%0A`;
+        counter++;
+      });
+      const totalBelanja = simpleCart.total();
+      const orderAdmin = '6281386267897'; // nomor admin bisa diganti
+      let url_wa = 'https://web.whatsapp.com/send';
+      if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        url_wa = 'whatsapp://send';
+      }
+      
+      const message = `${url_wa}?phone=${orderAdmin}&text=` +
+        `Halo Kak, saya *${data.nama}*, mau order produk berikut:%0A%0A` +
+        `-----------------------------------------%0A` +
+        `*LIST BELANJAAN*%0A` +
+        `-----------------------------------------%0A%0A${cartItem}%0A` +
+        `*Total Belanja:* ${angkaToRp(totalBelanja)}%0A` +
+        `*(belum termasuk ongkir)*%0A%0A` +
+        `-----------------------------------------%0A` +
+        `*DATA PENGIRIMAN*%0A` +
+        `-----------------------------------------%0A` +
+        `*Nama:* ${data.nama}%0A` +
+        `*WhatsApp:* ${data.nomor}%0A` +
+        `*Alamat:* ${data.alamat}%0A` +
+        `*Kota:* ${data.kota}%0A` +
+        `*Provinsi:* ${data.provinsi}%0A` +
+        `*Kode Pos:* ${data.kodepos || '-'}%0A%0A` +
+        `*Metode Bayar:* ${data.bayar}%0A` +
+        `*Jasa Kirim:* ${data.informasi}%0A%0A` +
+        `Mohon segera diproses ya Kak. Terima kasih! 🙏`;
+      
+      window.open(message, '_blank');
+      // Kosongkan keranjang setelah order
+      simpleCart.empty();
+      const modal = document.querySelector('#cart-modal');
+      modal.dismiss();
+      showToast('Pesanan diteruskan ke WhatsApp Admin', 2500);
+    }
+    
+    function showToast(message, duration = 2000) {
+      const toast = document.createElement('ion-toast');
+      toast.message = message;
+      toast.duration = duration;
+      toast.position = 'bottom';
+      toast.color = 'dark';
+      document.body.appendChild(toast);
+      toast.present();
+    }
+    
+    // Simulasi tombol follow/message
+    document.getElementById('follow-btn')?.addEventListener('click', () => showToast('Fitur follow tersedia di aplikasi asli', 1500));
+    document.getElementById('contact-btn')?.addEventListener('click', () => showToast('Hubungi: wa.me/6281386267897', 2000));
+    document.getElementById('back-button')?.addEventListener('click', () => history.back());
+    
+    // Inisialisasi ulang jika simplecart load dan produk sudah ada
+    window.updateCartUI = updateCartUI;
   </script>
+  
+  <!-- Load simpleCart dan formOrder (dengan modifikasi minimal) -->
+  <script src="/simpleCart.js"></script>
+  <script>
+    // Override sedikit untuk memastikan simpleCart menggunakan currency rupiah dan konfigurasi cart columns tidak diperlukan karena kita pakai manual
+    if (typeof simpleCart !== 'undefined') {
+      simpleCart.currency('IDR');
+      simpleCart.extend({
+        shippingFlatRate: 0,
+        taxRate: 0
+      });
+      // agar tidak konflik dengan writeCart, kita abaikan saja.
+      console.log('simpleCart ready with currency IDR');
+    }
+  </script>
+  <!-- formOrder.js untuk fungsi pendukung (tidak digunakan full tapi kita sudah punya send wa sendiri) -->
 </body>
 </html>
