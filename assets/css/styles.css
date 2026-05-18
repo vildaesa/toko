@@ -1,0 +1,152 @@
+:root {
+  --ion-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: var(--ion-font-family);
+  background: #fff;
+}
+
+.profile-header {
+  padding: 16px;
+}
+
+.avatar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.avatar-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #dbdbdb;
+}
+
+.stat-box {
+  text-align: center;
+  flex: 1;
+}
+
+.stat-value {
+  font-weight: bold;
+  font-size: 1.1rem;
+  display: block;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+.bio-section {
+  margin-bottom: 16px;
+  font-size: 0.95rem;
+}
+
+.bio-name {
+  font-weight: bold;
+}
+
+.bio-handle {
+  display: flex;
+  align-items: center;
+  color: #385898;
+  gap: 4px;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.action-buttons ion-button {
+  flex: 1;
+  --border-radius: 8px;
+  height: 35px;
+  font-size: 0.85rem;
+  text-transform: none;
+}
+
+.icon-button {
+  flex: 0.1;
+}
+
+.grid-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+}
+
+.product-page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.product-header h1 {
+  margin: 0 0 8px;
+}
+
+.product-gallery {
+  margin-top: 16px;
+}
+
+.product-gallery img,
+.product-gallery-grid img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  display: block;
+}
+
+.product-gallery-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  margin-top: 16px;
+}
+
+.product-styles ul,
+.product-details ul,
+.product-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.product-styles li,
+.product-details li,
+.product-list li {
+  margin-bottom: 8px;
+}
+
+.color-swatch {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.product-list li {
+  margin-bottom: 18px;
+}
+
+.product-list a {
+  color: #147efb;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.product-list a:hover {
+  text-decoration: underline;
+}

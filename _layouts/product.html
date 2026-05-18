@@ -1,3 +1,54 @@
 ---
-layout: none
+layout: default
 ---
+
+<article class="product-page">
+  <header class="product-header">
+    <h1>{{ page.title }}</h1>
+    <p class="product-description">{{ page.description }}</p>
+    <p class="product-price">Harga: {{ page.price }} {% if page.discount %}<span class="product-discount">({{ page.discount }})</span>{% endif %}</p>
+  </header>
+
+  {% if page.image %}
+  <section class="product-gallery">
+    <img src="{{ page.image }}" alt="{{ page.title }}">
+  </section>
+  {% endif %}
+
+  {% if page.facebook_image_path %}
+  <section class="product-gallery-grid">
+    {% for img in page.facebook_image_path %}
+      <img src="{{ img }}" alt="{{ page.title }} - {{ forloop.index }}">
+    {% endfor %}
+  </section>
+  {% endif %}
+
+  <section class="product-details">
+    {% if page.varian %}
+      <h2>Varian</h2>
+      <ul>
+        {% for item in page.varian %}
+          <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    {% if page.styles %}
+      <div class="product-styles">
+        <h2>Warna & gambar</h2>
+        <ul>
+          {% for style in page.styles %}
+            <li>
+              <span class="color-swatch" style="background: {{ style.color }}"></span>
+              {{ style.name }}
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+  </section>
+
+  <section class="product-body">
+    {{ content }}
+  </section>
+</article>

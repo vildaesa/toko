@@ -1,3 +1,12 @@
 title: Vems OlShop
-description: 
-author: 
+description: "Replikasi profil Instagram dan katalog produk modular dengan Jekyll"
+author: ""
+
+collections:
+  products:
+    output: true
+    permalink: /products/:name/
+
+permalink: pretty
+markdown: kramdown
+

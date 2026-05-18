@@ -1,0 +1,88 @@
+<ion-app>
+  <ion-header class="ion-no-border">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-button><ion-icon name="chevron-back-outline"></ion-icon></ion-button>
+      </ion-buttons>
+      <ion-title align="center" style="font-weight: bold; font-size: 1rem;">vildaesamlysri</ion-title>
+      <ion-buttons slot="end">
+        <ion-button><ion-icon name="ellipsis-horizontal-outline"></ion-icon></ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <div class="profile-header">
+      <div class="avatar-container">
+        <img src="https://placehold.co/150x150/orange/white?text=V" class="avatar-img" alt="Profile">
+        <div class="stat-box">
+          <span class="stat-value">32</span>
+          <span class="stat-label">posts</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-value">766</span>
+          <span class="stat-label">followers</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-value">246</span>
+          <span class="stat-label">following</span>
+        </div>
+      </div>
+
+      <div class="bio-section">
+        <div class="bio-name">Vilda</div>
+        <div>collecting moments</div>
+        <div class="bio-handle">
+          <ion-icon name="at-outline"></ion-icon>
+          vildaesamlysri
+        </div>
+      </div>
+
+      <div class="action-buttons">
+        <ion-button fill="outline" color="dark">Following <ion-icon slot="end" name="chevron-down"></ion-icon></ion-button>
+        <ion-button fill="outline" color="dark">Message</ion-button>
+        <ion-button fill="outline" color="dark" class="icon-button"><ion-icon name="person-add-outline"></ion-icon></ion-button>
+      </div>
+    </div>
+
+    <ion-segment value="grid">
+      <ion-segment-button value="grid">
+        <ion-icon name="grid-outline"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button value="reels">
+        <ion-icon name="play-circle-outline"></ion-icon>
+      </ion-segment-button>
+      <ion-segment-button value="mentions">
+        <ion-icon name="person-circle-outline"></ion-icon>
+      </ion-segment-button>
+    </ion-segment>
+
+    <ion-grid class="ion-no-padding">
+      <ion-row>
+        <ion-col size="4"><img src="https://placehold.co/400x600?text=Hello" class="grid-image"></ion-col>
+        <ion-col size="4"><img src="https://placehold.co/400x600?text=World" class="grid-image"></ion-col>
+        <ion-col size="4"><img src="https://placehold.co/400x600?text=Apa" class="grid-image"></ion-col>
+        <ion-col size="4"><img src="https://placehold.co/400x600?text=Kabar" class="grid-image"></ion-col>
+        <ion-col size="4"><img src="https://placehold.co/400x600?text=Semoga" class="grid-image"></ion-col>
+        <ion-col size="4"><img src="https://placehold.co/400x600?text=Baik" class="grid-image"></ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-content>
+
+  <ion-footer class="ion-no-border">
+    <ion-toolbar>
+      <ion-tabs>
+        <ion-tab-bar slot="bottom">
+          <ion-tab-button tab="home"><ion-icon name="home-outline"></ion-icon></ion-tab-button>
+          <ion-tab-button tab="search"><ion-icon name="search-outline"></ion-icon></ion-tab-button>
+          <ion-tab-button tab="add"><ion-icon name="add-circle-outline"></ion-icon></ion-tab-button>
+          <ion-tab-button tab="reels"><ion-icon name="play-outline"></ion-icon></ion-tab-button>
+          <ion-tab-button tab="profile"><ion-icon name="person-circle"></ion-icon></ion-tab-button>
+        </ion-tab-bar>
+      </ion-tabs>
+    </ion-toolbar>
+  </ion-footer>
+</ion-app>
+
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>

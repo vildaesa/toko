@@ -1,0 +1,17 @@
+---
+layout: default
+title: Produk
+permalink: /products/
+---
+
+<section class="product-page">
+  <h1>Produk</h1>
+  <ul class="product-list">
+    {% for product in site.products %}
+      <li>
+        <a href="{{ product.url | relative_url }}">{{ product.title }}</a>
+        <p>{{ product.description }}</p>
+      </li>
+    {% endfor %}
+  </ul>
+</section>
